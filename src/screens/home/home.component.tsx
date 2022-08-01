@@ -1,20 +1,16 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Text} from 'react-native-paper';
-import {categoryData} from '../../api/categories/categories';
-import { CategoryType } from '../../api/categories/types';
-import {Categories} from '../../components';
-
-// TODO:: replace with API
-const getData = () => {
-  return categoryData.map((category: string) => ({name: category} as CategoryType));
-};
+import {Button} from 'react-native-paper';
+import {SHOP_ROUTE} from '../../components';
 
 // TODO:: ADD CATEGORY NAVIGATION LINKS AFTER SETTING UP NAVIATION FOUNDATION
 // TODO:: SET UP GH REPO FOR THIS
-export const Home = () => {
-    return (<View>
-        <Text>Home</Text>
-        <Categories title="New Styles" categories={getData()} />
-        </View>);
+
+
+export const Home = ({navigation}) => {
+  return (
+    <View style={{paddingTop: 25}}>
+      <Button onPress={() => navigation.navigate(SHOP_ROUTE, { screen: SHOP_ROUTE})}>Navigate Shop</Button>
+    </View>
+  );
 };
