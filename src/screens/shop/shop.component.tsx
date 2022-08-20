@@ -1,17 +1,38 @@
-import React from 'react';
-import {View} from 'react-native';
-import {getCategoryData} from '../../api/categories/categories';
+import { useNavigation } from '@react-navigation/core';
+import React, { useCallback } from 'react';
+import {ScrollView, View} from 'react-native';
+import { Text, Title } from 'react-native-paper';
+import { getCategoryData } from '../../api/categories';
 import {CATEGORY_ROUTE} from '../../components';
-import { ItemCardList } from '../../components/item-card';
+import { ItemCard, ItemCardList } from '../../components/item-card';
 
 export const Shop = () => {
+  const {navigate} = useNavigation();
+
+  const navigateToCategories = useCallback((id: number) => {
+      navigate(CATEGORY_ROUTE, {id});
+    },
+    [navigate],
+  );
+
+  const categories = getCategoryData();
+
   return (
-    <View>
-      <ItemCardList
-        title="New Styles"
-        route={CATEGORY_ROUTE}
-        data={getCategoryData()}
-      />
-    </View>
+    <ScrollView>
+      {categories.map(({id, name, picture}, index) => {
+        return (
+          <View>
+            <ItemCard
+              cardPressFunction={() => {
+                navigateToCategories(id);
+              }}
+              key={index}
+              name={name}
+              picture={picture}
+            />
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };

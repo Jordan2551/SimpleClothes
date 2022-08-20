@@ -1,23 +1,28 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Card} from 'react-native-paper';
-import { ItemType } from '../../api/categories/types';
-
+import {Card, Paragraph} from 'react-native-paper';
 export interface ItemCardProps {
-  data: ItemType;
-  route: string;
+  name: string;
+  picture: string;
+  description?: string;
+  cardPressFunction?: () => void;
 }
 
-export const ItemCard = ({route, data}: ItemCardProps) => {
-  const navigation = useNavigation();
-
+export const ItemCard = ({
+  cardPressFunction,
+  name,
+  picture,
+  description,
+}: ItemCardProps) => {
   return (
-    <Card
-      onPress={() => {
-        navigation.navigate(route, {id: data.id});
-      }}>
-      <Card.Title title={data.name} />
-      <Card.Cover source={{uri: data.picture}} />
+    <Card onPress={cardPressFunction ? cardPressFunction : () => {}}>
+      <Card.Title title={name} />
+      <Card.Cover source={{uri: picture}} />
+      {description && (
+          <Card.Content>
+            <Paragraph>{description}</Paragraph>
+          </Card.Content>
+      )}
+
     </Card>
   );
 };
